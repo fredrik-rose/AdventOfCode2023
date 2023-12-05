@@ -3,6 +3,15 @@
 Solutions for the advent of code 2023 puzzles, implemented in Python. The
 puzzles can be found here: https://adventofcode.com/2023
 
+## Algorithms
+
+#### Intervals/Ranges
+
+Instead of processing each element one by one try to find a group that is processed in the equally.
+Then it is possible to process an entire group, which could lead to big speed ups in case of many
+objects. It might also be beneficial to define a range as `[start, end[`, as e.g.
+`len(range) = b - a` and `[a, b[ + [c, d[ = [a, c[`. See day 5.
+
 ## Python
 
 Break out of nested loop:
