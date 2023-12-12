@@ -5,6 +5,20 @@ puzzles can be found here: https://adventofcode.com/2023
 
 ## Algorithms
 
+### Dynamic Programming
+
+Dynamic programming is basically memoization. If a certain state occurs several times we can cache
+the result and instantly get the result instead of computing it multiple times. The import part is
+to find what the state is and what to include, if the state space is too large DP might not be
+feasible. It is also important that we actually encounters the same state several times for DP to
+have an affect. See day 12 for an example.
+
+### Backtracking
+
+Backtracking incrementally builds the solution and abandons a certain part as soon as it doesn't
+fulfill the constraints. See day 12 for an example where the current path is abandon as soon as the
+solution does not follow the rules.
+
 ### Intervals/Ranges
 
 Instead of processing each element one by one try to find a group that is processed in the equally.
