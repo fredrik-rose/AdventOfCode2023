@@ -1,6 +1,17 @@
 import collections as coll
 
 
+def hamming_distance(first, second):
+    # Number of different elements in two iterables.
+    assert len(first) == len(second)
+    return sum(a != b for a, b in zip(first, second))
+
+
+def rotate_clockwise(array_2d):
+    # Rotate a 2D list clockwise.
+    return list(zip(*array_2d[::-1]))
+
+
 def flood_fill(graph, start):
     # Finds the distances from the start node to all other nodes.
     queue = coll.deque([(start, 0)])

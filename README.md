@@ -26,6 +26,10 @@ Then it is possible to process an entire group, which could lead to big speed up
 objects. It might also be beneficial to define a range as `[start, end[`, as e.g.
 `len(range) = b - a` and `[a, b[ + [c, d[ = [a, c[`. See day 5.
 
+### Hamming Distance
+
+The number of different elements in two sequences (e.g. binary numbers).
+
 ### Inside/outside Detection
 
 To detect if we are inside or outside a geometric figure (e.g. loop or rectangle) we can scan for
@@ -43,6 +47,16 @@ for y in range(10):
     else:
         continue
     break
+```
+
+Rotate 2D list clockwise:
+```
+list(zip(*array_2d[::-1]))
+```
+
+Assignment in list comprehension:
+```
+sum(x**2 for e in elements if (x := f(e)) is not None)
 ```
 
 ## Regexp
