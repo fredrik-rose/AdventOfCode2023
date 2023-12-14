@@ -30,6 +30,29 @@ objects. It might also be beneficial to define a range as `[start, end[`, as e.g
 
 The number of different elements in two sequences (e.g. binary numbers).
 
+### Cycle Detection
+
+For some problems that needs to run for many iteration it might be possible to detect a cycle
+(e.g. by keeping track of the current state via a set). Then all iterations can efficiently be run
+by ignoring all cycles and only run the part before the cycle is entered and the number of steps
+remaining after the cycle to fit the exact number of iterations. See day 14.
+
+```
+def f(steps):
+    states = {}
+    t = 0
+    while t < steps:
+        t += 1
+        do_stuff()
+        state = get_state()
+        if state in states:
+            cycle_length = t - states[state]
+            num_cycles = (steps - t) // cycle_length
+            t += num_cycles * cycle_length
+        else:
+            states[state] = t
+```
+
 ### Inside/outside Detection
 
 To detect if we are inside or outside a geometric figure (e.g. loop or rectangle) we can scan for
@@ -49,9 +72,14 @@ for y in range(10):
     break
 ```
 
+Flatten 2D list:
+```
+[e for row in array_2d for e in row]
+```
+
 Rotate 2D list clockwise:
 ```
-list(zip(*array_2d[::-1]))
+list(map(list, zip(*grid[::-1]))
 ```
 
 Assignment in list comprehension:

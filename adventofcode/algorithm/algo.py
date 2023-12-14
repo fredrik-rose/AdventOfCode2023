@@ -1,6 +1,10 @@
 import collections as coll
 
 
+def flatten_list(array_2d):
+    return [e for row in array_2d for e in row]
+
+
 def hamming_distance(first, second):
     # Number of different elements in two iterables.
     assert len(first) == len(second)
@@ -9,7 +13,7 @@ def hamming_distance(first, second):
 
 def rotate_clockwise(array_2d):
     # Rotate a 2D list clockwise.
-    return list(zip(*array_2d[::-1]))
+    return list(map(list, zip(*array_2d[::-1])))
 
 
 def flood_fill(graph, start):
