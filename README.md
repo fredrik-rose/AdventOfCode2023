@@ -3,6 +3,21 @@
 Solutions for the advent of code 2023 puzzles, implemented in Python. The
 puzzles can be found here: https://adventofcode.com/2023
 
+## How To
+
+Run a module (stand in the root folder):
+```
+python -m adventofcode.day1.1
+```
+
+Run static code analysis (stand in the root folder):
+```
+black adventofcode
+pylint adventofcode
+flake8 adventofcode
+
+```
+
 ## Algorithms
 
 ### Dynamic Programming
