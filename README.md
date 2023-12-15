@@ -87,6 +87,11 @@ Assignment in list comprehension:
 sum(x**2 for e in elements if (x := f(e)) is not None)
 ```
 
+Delete from dict without KeyError for missing elements:
+```
+dictionary.pop(key, None)
+```
+
 ## Regexp
 
 Find overlapping matches:
