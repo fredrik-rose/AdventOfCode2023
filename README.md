@@ -68,6 +68,24 @@ def f(steps):
             states[state] = t
 ```
 
+### Shortest Path (Dijkstra)
+
+See day 17.
+
+```
+def dijkstra(graph, start, neighbor_generator):
+    queue = [(0, start)]
+    costs = {}
+    while queue:
+        cost, node = heapq.heappop(queue)
+        if node in costs:
+            continue
+        costs[node] = cost
+        for n, c in neighbor_generator(graph, node):
+            heapq.heappush(queue, (cost + c, n))
+    return costs
+```
+
 ### Inside/outside Detection
 
 To detect if we are inside or outside a geometric figure (e.g. loop or rectangle) we can scan for
@@ -105,6 +123,12 @@ sum(x**2 for e in elements if (x := f(e)) is not None)
 Delete from dict without KeyError for missing elements:
 ```
 dictionary.pop(key, None)
+```
+
+Partial evaluation (see day 17):
+```
+import functools
+new_f = functools.partial(f, arg1=10, arg2=20)
 ```
 
 ## Regexp

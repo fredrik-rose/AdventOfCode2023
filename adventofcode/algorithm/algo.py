@@ -1,4 +1,5 @@
 import collections as coll
+import heapq
 
 
 def flatten_list(array_2d):
@@ -29,6 +30,21 @@ def flood_fill(graph, start):
         for neighbor in graph[node]:
             queue.append((neighbor, distance + 1))
     return distances
+
+
+def dijkstra(graph, start, neighbor_generator, start_cost=0):
+    # Finds the shortest path from the start node to all other nodes.
+    queue = [(start_cost, start)]
+    costs = {}
+    while queue:
+        cost, node = heapq.heappop(queue)
+        if node in costs:
+            assert cost >= costs[node]
+            continue
+        costs[node] = cost
+        for n, c in neighbor_generator(graph, node):
+            heapq.heappush(queue, (cost + c, n))
+    return costs
 
 
 def get_insides(graph, y_range, x_range):
