@@ -86,6 +86,19 @@ def dijkstra(graph, start, neighbor_generator):
     return costs
 ```
 
+### Polygons
+
+The Shoelace formula can be used to find the area of a polygon. To find the number of internal or
+external points Pick's theorem can be used.
+```
+    A = i + b/2 - 1,
+where
+    A: area of the polygon,
+    i: number of internal points in polygon,
+    b: number of border points.
+```
+See day 18 and https://www.themathdoctors.org/polygon-coordinates-and-areas/ for more information.
+
 ### Inside/outside Detection
 
 To detect if we are inside or outside a geometric figure (e.g. loop or rectangle) we can scan for

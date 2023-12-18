@@ -1,5 +1,6 @@
 import collections as coll
 import heapq
+import math
 
 
 def flatten_list(array_2d):
@@ -45,6 +46,38 @@ def dijkstra(graph, start, neighbor_generator, start_cost=0):
         for n, c in neighbor_generator(graph, node):
             heapq.heappush(queue, (cost + c, n))
     return costs
+
+
+def polygon_area(polygon):
+    # Find the area of a polygon using the trapezoid version of the Shoelace formula.
+    n = len(polygon)
+    area = 0
+    for i in range(n):
+        j = (i + 1) % n
+        area += (polygon[i][0] + polygon[j][0]) * (polygon[i][1] - polygon[j][1])
+    area = abs(area) // 2
+    return area
+
+
+def polygon_num_border_points(polygon):
+    # Find the number of border points of a polygon.
+    result = 0
+    for a, b in zip(polygon[:-1], polygon[1:]):
+        result += math.sqrt((b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2)
+    return result
+
+
+def polygon_internal_points(polygon):
+    # Find the number of internal points in a polygon using Pick's theorem:
+    #     A = i + b/2 - 1 => i = A - b/2 + 1,
+    # where
+    #     A: area of the polygon,
+    #     i: number of internal points in polygon,
+    #     b: number of border points.
+    A = polygon_area(polygon)
+    b = polygon_num_border_points(polygon)
+    i = A - b // 2 + 1
+    return i
 
 
 def get_insides(graph, y_range, x_range):
