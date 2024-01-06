@@ -152,3 +152,15 @@ import regex
 regex.findall(pattern, text, overlapped=True)]
 ```
 Note that there is (syntax) support for this in the ordinary re module but not as convenient.
+
+
+## Graphviz
+
+Graphs can be really helpful for visualizing problems. To generate a graph use the following command:
+
+```
+ dot -Tpng -o graph.png graph.dot
+```
+Look at day 20 to see how to generate the .dot file.
+
+<img src="adventofcode/day20/graph.png"/>

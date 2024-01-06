@@ -3,6 +3,19 @@ import heapq
 import math
 
 
+def lcm(numbers):
+    # Least-common multiplier for a list of numbers.
+    result = 1
+    for n in numbers:
+        result = binary_lcm(result, n)
+    return result
+
+
+def binary_lcm(a, b):
+    # Least-common multiplier for two numbers.
+    return int(a * b / math.gcd(a, b))
+
+
 def flatten_list(array_2d):
     return [e for row in array_2d for e in row]
 
