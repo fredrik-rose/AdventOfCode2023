@@ -18,7 +18,21 @@ flake8 adventofcode
 
 ```
 
+## Notes
+
+Make sure to always inspect the data! Many of the problems this year are extremely difficult to
+solve unless certain properties of the input data are used. For some problems the data has been
+very nice in the sense that assumptions that might seem unreasonable actually holds.
+
 ## Algorithms
+
+### Lagrange Polynomial
+
+A set of points can be used to create a polynomial function of degree <= #points, that
+interpolates the points. This can be useful for problems with many "steps", if you can find a
+pattern where the output increases e.g. quadratically for each step (or at least suspect that is
+the case). The Lagrange polynomial can then be used to find the quadratic function from the first
+few steps and then be used to compute the output size for the wanted number of steps. See day 21.
 
 ### Dynamic Programming
 

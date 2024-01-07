@@ -1,6 +1,8 @@
 import collections as coll
+import functools
 import heapq
 import math
+import operator
 
 
 def lcm(numbers):
@@ -14,6 +16,25 @@ def lcm(numbers):
 def binary_lcm(a, b):
     # Least-common multiplier for two numbers.
     return int(a * b / math.gcd(a, b))
+
+
+def lagrange_polynomial(points):
+    # Creates a polynomial function of degree <= #points that interpolates the given points.
+    def basis_polynomial(j, x):
+        return functools.reduce(
+            operator.mul,
+            (
+                (x - p[0]) / (points[j][0] - p[0])
+                for i, p in enumerate(points)
+                if i != j
+            ),
+        )
+
+    def f(x):
+        return sum(p[1] * basis_polynomial(i, x) for i, p in enumerate(points))
+
+    assert len(set(p[0] for p in points)) == len(points)  # Check that all x are unique.
+    return f
 
 
 def flatten_list(array_2d):
