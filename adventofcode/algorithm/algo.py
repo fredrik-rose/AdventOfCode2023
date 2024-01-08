@@ -53,7 +53,7 @@ def rotate_clockwise(array_2d):
 
 
 def flood_fill(graph, start):
-    # Finds the distances from the start node to all other nodes.
+    # Find the distances from the start node to all other nodes.
     queue = coll.deque([(start, 0)])
     distances = {}
     while queue:
@@ -68,7 +68,7 @@ def flood_fill(graph, start):
 
 
 def dijkstra(graph, start, neighbor_generator, start_cost=0):
-    # Finds the shortest path from the start node to all other nodes.
+    # Find the shortest path from the start node to all other nodes.
     queue = [(start_cost, start)]
     costs = {}
     while queue:
@@ -80,6 +80,54 @@ def dijkstra(graph, start, neighbor_generator, start_cost=0):
         for n, c in neighbor_generator(graph, node):
             heapq.heappush(queue, (cost + c, n))
     return costs
+
+
+def longest_path(graph, start, end, neighbor_generator, visited=None):
+    # Find the longest path from start to end using DFS. Note that this is not feasible for large
+    # graphs.
+    visited = visited if visited else set()
+    visited.add(start)
+    if start == end:
+        length = 0
+    else:
+        length = float("-inf")
+        # Use -inf to handle invalid paths that does not lead to end in a nice way.
+        for node, distance in neighbor_generator(graph, start):
+            if node not in visited:
+                candidate = longest_path(graph, node, end, neighbor_generator, visited)
+                length = max(length, distance + candidate)
+    visited.remove(start)
+    return length
+
+
+def compress_maze(maze, start, end, neighbor_generator):
+    # Compress a maze to a graph represented as a dict where each node is an intersection:
+    #     {node: [(neighbor_node, distance)]}
+    def find_neighbor_intersections(start, intersections):
+        queue = coll.deque()
+        visited = set()
+        for n in neighbor_generator(maze, start):
+            queue.append((n, 1))
+        neighbors = set()
+        while queue:
+            node, distance = queue.popleft()
+            if node in visited:
+                continue
+            visited.add(node)
+            if node in intersections:
+                neighbors.add((node, distance))
+                continue
+            for n in neighbor_generator(maze, node):
+                queue.append((n, distance + 1))
+        return neighbors
+
+    intersections = set(
+        node for node in maze if len(list(neighbor_generator(maze, node))) > 2
+    )
+    intersections.add(start)
+    intersections.add(end)
+    graph = {c: find_neighbor_intersections(c, intersections) for c in intersections}
+    return graph
 
 
 def polygon_area(polygon):

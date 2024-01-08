@@ -46,7 +46,7 @@ have an affect. See day 12 for an example.
 
 Backtracking incrementally builds the solution and abandons a certain part as soon as it doesn't
 fulfill the constraints. See day 12 for an example where the current path is abandon as soon as the
-solution does not follow the rules.
+solution does not follow the rules. Another example is `longest_path()` from day 23.
 
 ### Intervals/Ranges
 
@@ -100,6 +100,19 @@ def dijkstra(graph, start, neighbor_generator):
     return costs
 ```
 
+### Longest Path
+
+Deep-first search (DFS) can be used to find the longest path in a graph. Note however that this is
+only feasible for very small graphs. It might be possible to compress large graphs to a smaller
+representation, e.g. nodes that are only connected to two other nodes might be possible to collapse
+to a single node. See day 23.
+
+### Maze Compression
+
+It is possible to represent mazes as graphs where each node represents an intersection and the
+edges represents the distance between intersections. This is also known as edge contraction. See
+day 23.
+
 ### Polygons
 
 The Shoelace formula can be used to find the area of a polygon. To find the number of internal or
@@ -127,6 +140,9 @@ e.g. efficiently simulate which bricks would be affected if something happens to
 (e.g. removal). See day 22.
 
 ## Python
+
+Watch out for extensive copying, especially `deepcopy` as that it really slow. However, be aware
+that in some cases `deepcopy` is needed and will lead to hard to find bugs if not used.
 
 Break out of nested loop:
 
@@ -164,6 +180,12 @@ Partial evaluation (see day 17):
 ```
 import functools
 new_f = functools.partial(f, arg1=10, arg2=20)
+```
+
+Set recursion limit (might be needed to avoid crashes for some recursive algorithms):
+```
+import sys
+sys.setrecursionlimit(15000)
 ```
 
 ## Regexp
