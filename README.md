@@ -118,6 +118,14 @@ See day 18 and https://www.themathdoctors.org/polygon-coordinates-and-areas/ for
 To detect if we are inside or outside a geometric figure (e.g. loop or rectangle) we can scan for
 crossings and change the inside/outside state at each crossing. See `get_insides` in algorithms.
 
+### Tetris
+
+A Tetris game (falling bricks) can be efficiently simulated using a Z-buffer that keeps track of
+what is the current max `z` height for each position. If we also keep track of the id of the brick
+we can construct a graph representing the support of each brick. This in turn can then be used to
+e.g. efficiently simulate which bricks would be affected if something happens to another brick
+(e.g. removal). See day 22.
+
 ## Python
 
 Break out of nested loop:
