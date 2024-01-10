@@ -130,6 +130,21 @@ def compress_maze(maze, start, end, neighbor_generator):
     return graph
 
 
+def line_intersection(x1, y1, x2, y2, x3, y3, x4, y4):
+    # Calculates the intersection (if any) of two lines defined by to pairs of points each.
+    den = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+    if den != 0.0:
+        t_num = (x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)
+        u_num = (x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)
+        t = t_num / den
+        u = -u_num / den
+        if 0.0 <= t <= 1.0 and 0.0 <= u <= 1.0:
+            px = x1 + t * (x2 - x1)
+            py = y1 + t * (y2 - y1)
+            return (px, py)
+    return None
+
+
 def polygon_area(polygon):
     # Find the area of a polygon using the trapezoid version of the Shoelace formula.
     n = len(polygon)

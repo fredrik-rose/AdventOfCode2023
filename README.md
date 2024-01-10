@@ -34,6 +34,12 @@ pattern where the output increases e.g. quadratically for each step (or at least
 the case). The Lagrange polynomial can then be used to find the quadratic function from the first
 few steps and then be used to compute the output size for the wanted number of steps. See day 21.
 
+### Equation Solving
+
+Z3 (Z3 Theorem Prover) it a powerful tool that can be used to solve complex equations. An
+alternative is SymPy. Gaussian elimination can be used to solve systems of linear equations. See
+day 24.
+
 ### Dynamic Programming
 
 Dynamic programming is basically memoization. If a certain state occurs several times we can cache
