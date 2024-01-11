@@ -113,6 +113,14 @@ only feasible for very small graphs. It might be possible to compress large grap
 representation, e.g. nodes that are only connected to two other nodes might be possible to collapse
 to a single node. See day 23.
 
+### Graph Cut
+
+The Karger's_algorithm can be used to find a minimum cut of a graph. Another alternative that I
+came up with is to flood fill from each node to all other nodes and count the number of times each
+edge are used. The max used edges are probably the min cut, then we can just iteratively remove the
+most used edges. It is however probably not guaranteed to always find the actual min cut. NetworkX
+is a Python library that can be used to process graphs. See day 25.
+
 ### Maze Compression
 
 It is possible to represent mazes as graphs where each node represents an intersection and the
@@ -211,6 +219,7 @@ Graphs can be really helpful for visualizing problems. To generate a graph use t
 ```
  dot -Tpng -o graph.png graph.dot
 ```
-Look at day 20 to see how to generate the .dot file.
+Look at day 20 to see how to generate the .dot file. Use `digraph` for directed graphs and `graph`
+for undirected. To remove multiple equal connections use the `strict` keyword.
 
 <img src="adventofcode/day20/graph.png"/>

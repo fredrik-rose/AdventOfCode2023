@@ -1,12 +1,14 @@
 import collections as coll
+import copy
 import functools
 import heapq
 import math
 import operator
+import random
 
 
 def lcm(numbers):
-    # Least-common multiplier for a list of numbers.
+    # Least-common multiple for a list of numbers.
     result = 1
     for n in numbers:
         result = binary_lcm(result, n)
@@ -14,7 +16,7 @@ def lcm(numbers):
 
 
 def binary_lcm(a, b):
-    # Least-common multiplier for two numbers.
+    # Least-common multiple for two numbers.
     return int(a * b / math.gcd(a, b))
 
 
@@ -41,6 +43,10 @@ def flatten_list(array_2d):
     return [e for row in array_2d for e in row]
 
 
+def sort_dict_by_value(dictionary, reverse=False):
+    return dict(sorted(dictionary.items(), key=lambda x: x[1], reverse=reverse))
+
+
 def hamming_distance(first, second):
     # Number of different elements in two iterables.
     assert len(first) == len(second)
@@ -52,18 +58,19 @@ def rotate_clockwise(array_2d):
     return list(map(list, zip(*array_2d[::-1])))
 
 
-def flood_fill(graph, start):
+def flood_fill(graph, start, neighbor_generator):
     # Find the distances from the start node to all other nodes.
-    queue = coll.deque([(start, 0)])
+    queue = coll.deque()
     distances = {}
+    queue.append((None, start, 0))
     while queue:
-        node, distance = queue.popleft()
+        prev, node, distance = queue.popleft()
         if node in distances:
             assert distance >= distances[node]
             continue
         distances[node] = distance
-        for neighbor in graph[node]:
-            queue.append((neighbor, distance + 1))
+        for n in neighbor_generator(graph, prev, node):
+            queue.append((node, n, distance + 1))
     return distances
 
 
@@ -98,6 +105,58 @@ def longest_path(graph, start, end, neighbor_generator, visited=None):
                 length = max(length, distance + candidate)
     visited.remove(start)
     return length
+
+
+def rose_min_cut(graph):
+    # Find the minimum cut of a graph using the flood approach. Flood fill from each node and find
+    # the most used edges, these are most likely part of the minimum cut. Then iteratively remove
+    # the most used edges from the graph until there is a cut.
+    def neighbor_generator(graph, prev, node):
+        graph, edge_counter = graph
+        edge_counter[frozenset((prev, node))] += 1
+        for n in graph[node]:
+            yield n
+
+    graph = copy.deepcopy(graph)
+    edge_counter = coll.defaultdict(int)
+    for node in graph:
+        flood_fill((graph, edge_counter), node, neighbor_generator)
+    edge_counter = sort_dict_by_value(edge_counter, reverse=True)
+    edges = list(edge_counter.keys())
+    for i, (a, b) in enumerate(edges):
+        graph[a].remove(b)
+        graph[b].remove(a)
+        if len(flood_fill((graph, edge_counter), a, neighbor_generator)) != len(graph):
+            return edges[: i + 1]
+    assert False
+
+
+def kargers_algorithm(graph):
+    # Find the minimum cut of a graph using the Karger's algorithm. Note that this is a stochastic
+    # algorithm that may not find the actual min cut. Repeating it several times increase the
+    # probability of actually finding the minimum cut.
+    def get_random_edge():
+        u = random.choice(list(graph))
+        v = random.choice(list(graph[u]))
+        return u, v
+
+    def edge_contraction(u, v):
+        uv = u + v
+        for node in (u, v):
+            for n in graph[node]:
+                if n in (u, v):
+                    continue
+                graph[n].append(uv)
+                graph[uv].append(n)
+                graph[n] = [e for e in graph[n] if e != node]
+        del graph[u]
+        del graph[v]
+
+    while len(graph) > 2:
+        edge = get_random_edge()
+        edge_contraction(*edge)
+    cut_size = len(next(iter(graph.values())))
+    return cut_size
 
 
 def compress_maze(maze, start, end, neighbor_generator):

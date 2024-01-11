@@ -7,13 +7,13 @@ from adventofcode.algorithm import algo
 
 
 def part_one(graph, start):
-    distances = algo.flood_fill(graph, start)
+    distances = algo.flood_fill(graph, start, neighbor_generator)
     answer = max(distances.values())
     print(f"Part one: {answer}")
 
 
 def part_two(graph, start):
-    distances = algo.flood_fill(graph, start)
+    distances = algo.flood_fill(graph, start, neighbor_generator)
     graph = {node: neighbors for node, neighbors in graph.items() if node in distances}
     y_range = get_extended_range([e[0] for e in graph.keys()])
     x_range = get_extended_range([e[1] for e in graph.keys()])
@@ -57,6 +57,11 @@ def get_start_neighbors(graph, start):
                 start_neighbors.append(node)
     assert len(start_neighbors) == 2
     return tuple(start_neighbors)
+
+
+def neighbor_generator(graph, _, node):
+    for n in graph[node]:
+        yield n
 
 
 def get_extended_range(values):
